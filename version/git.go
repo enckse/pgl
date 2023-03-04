@@ -16,105 +16,115 @@ import (
 )
 
 type (
-	// VersionManager is used to setup version information
-	VersionManager interface {
-		Tag() (string, error)
+	// GitManager is used to setup version information
+	GitManager interface {
+		Tag() string
 		Error(error)
 		Noop(string)
-		Write(string) error
+		Write(string)
+		GitRoot() string
 	}
-	DefaultVersionManager struct{}
+	// DefaultGitManager is the default manager for most applications
+	DefaultGitManager struct{}
 )
 
-//go:embed vers.txt
-var Version string
-
 // Error will die/exit
-func (d DefaultVersionManager) Error(err error) {
+func (d DefaultGitManager) Error(err error) {
 	o.Die(err)
 }
 
 // Tag will get the tag via git describe
-func (d DefaultVersionManager) Tag() (string, error) {
+func (d DefaultGitManager) Tag() string {
 	b, err := exec.Command("git", "describe", "--tags", "--abbrev=0").Output()
 	if err != nil {
-		return "", err
+		d.Error(err)
+		return ""
 	}
-	return string(b), err
+	return string(b)
 }
 
 // Write will simply write the tag to stdout
-func (d DefaultVersionManager) Write(tag string) error {
+func (d DefaultGitManager) Write(tag string) {
 	args := os.Args
 	if len(args) != 2 {
-		return errors.New("invalid arguments, must be: '<cmd> <file>'")
+		d.Error(errors.New("invalid arguments, must be: '<cmd> <file>'"))
+		return
 	}
-	return os.WriteFile(args[1], []byte(tag), 0o644)
+	if err := os.WriteFile(args[1], []byte(tag), 0o644); err != nil {
+		d.Error(err)
+		return
+	}
 }
 
 // Noop writes the message to stderr
-func (d DefaultVersionManager) Noop(message string) {
+func (d DefaultGitManager) Noop(message string) {
 	fmt.Fprintln(os.Stderr, message)
+}
+
+// GitRoot gets the root directory where the git directory is
+func (d DefaultGitManager) GitRoot() string {
+	return ".git"
 }
 
 // DefaultGitVersion is a wrapper around default git versioning settings
 func DefaultGitVersion() {
-	Git(DefaultVersionManager{})
+	Git(DefaultGitManager{})
 }
 
 var (
-	// ErrInvalidInputTag indicates the tag is malformed
-	ErrInvalidInputTag = errors.New("current version tag is malformed")
-	// ErrInvalidInputTagMinor means the minor component is < 0
-	ErrInvalidInputTagMinor = fmt.Errorf("%w: minor component less than 0", ErrInvalidInputTag)
-	// ErrMaxMinorTag indicates that somehow the minor version is > 99
-	ErrMaxMinorTag = fmt.Errorf("%w: maximum minor tag value exceeded", ErrInvalidInputTag)
-	// ErrInvalidInputTagSpace indicates the tag was only whitespace
-	ErrInvalidInputTagSpace = fmt.Errorf("%w: found only whitespace", ErrInvalidInputTag)
+	errInvalidTag = errors.New("current version tag is malformed: ")
+	// ErrInvalidMinorTagZero means the parsed tag had a minor component below 0
+	ErrInvalidMinorTagZero = fmt.Errorf("%wminor component less than 0", errInvalidTag)
+	// ErrInvalidMinorTagExceeds means the parsed minor tag +1 is 100 (or more)
+	ErrInvalidMinorTagExceeds = fmt.Errorf("%wmaximum minor tag value exceeded", errInvalidTag)
+	// ErrInvalidTagSpace means the tag was only whitespace
+	ErrInvalidTagSpace = fmt.Errorf("%wfound only whitespace", errInvalidTag)
+	// ErrInvalidInputTag means the input tag was invalid (wrong length, values, etc.)
+	ErrInvalidInputTag = fmt.Errorf("%wtag format is invalid", errInvalidTag)
+	// Version holds the internal version of pgl
+	//go:embed "vers.txt"
+	Version string
+)
+
+const (
+	timeFormat = "v06.01."
 )
 
 // Git handles versioning for git-based repos
-func Git(v VersionManager) {
-	if !filepath.PathExists(".git") {
-		v.Noop("not git controlled")
+func Git(v GitManager) {
+	if !filepath.PathExists(v.GitRoot()) {
+		v.Noop("no git root found")
 		return
 	}
-	tag, err := v.Tag()
+	tag := strings.TrimSpace(v.Tag())
+	if tag == "" {
+		v.Error(ErrInvalidTagSpace)
+		return
+	}
+	currentVersion := time.Now().Format(timeFormat)
+	if len(tag) != len(timeFormat)+2 || !strings.HasPrefix(tag, currentVersion) {
+		v.Error(ErrInvalidInputTag)
+		return
+	}
+	parts := strings.Split(tag, ".")
+	if len(parts) != 3 {
+		v.Error(ErrInvalidInputTag)
+		return
+	}
+	minorVer := strings.TrimPrefix(parts[2], "0")
+	converted, err := strconv.Atoi(minorVer)
 	if err != nil {
 		v.Error(err)
 		return
 	}
-	trimmed := strings.TrimSpace(tag)
-	if trimmed == "" {
-		v.Error(ErrInvalidInputTagSpace)
+	if converted < 0 {
+		v.Error(ErrInvalidMinorTagZero)
 		return
 	}
-	tag = trimmed
-	currentVersion := time.Now().Format("v06.01.")
-	var minor uint
-	if strings.HasPrefix(tag, currentVersion) {
-		parts := strings.Split(tag, ".")
-		if len(parts) != 3 {
-			v.Error(ErrInvalidInputTag)
-			return
-		}
-		minorVer := strings.TrimPrefix(parts[2], "0")
-		converted, err := strconv.Atoi(minorVer)
-		if err != nil {
-			v.Error(err)
-			return
-		}
-		if converted < 0 {
-			v.Error(ErrInvalidInputTagMinor)
-			return
-		}
-		minor = uint(converted) + 1
-	}
+	minor := uint(converted) + 1
 	if minor > 99 {
-		v.Error(ErrMaxMinorTag)
+		v.Error(ErrInvalidMinorTagExceeds)
 		return
 	}
-	if err := v.Write(fmt.Sprintf("%s%02d", currentVersion, minor)); err != nil {
-		v.Error(err)
-	}
+	v.Write(fmt.Sprintf("%s%02d", currentVersion, minor))
 }
