@@ -3,23 +3,20 @@ package maps
 
 type (
 	// KeyedMap contains keys synced with the underlying map keys
-	KeyedMap[T comparable] struct {
-		data map[T]any
+	KeyedMap[T comparable, V any] struct {
+		data map[T]V
 		keys []T
 	}
 )
 
 // Add will add a new key/value to the map
-func (m *KeyedMap[T]) Add(key T, value any) {
-	if m == nil {
-		return
-	}
+func (m *KeyedMap[T, V]) Add(key T, value V) {
 	needAdd := false
 	if _, ok := m.Get(key); !ok {
 		needAdd = true
 	}
 	if m.data == nil {
-		m.data = make(map[T]any)
+		m.data = make(map[T]V)
 	}
 	if needAdd {
 		m.keys = append(m.keys, key)
@@ -28,8 +25,8 @@ func (m *KeyedMap[T]) Add(key T, value any) {
 }
 
 // Delete will remove a key from the map
-func (m *KeyedMap[T]) Delete(key T) {
-	if !validKeyedMap(m) {
+func (m *KeyedMap[T, V]) Delete(key T) {
+	if m.data == nil {
 		return
 	}
 	if _, ok := m.Get(key); ok {
@@ -46,22 +43,18 @@ func (m *KeyedMap[T]) Delete(key T) {
 }
 
 // Get will get the value of a key
-func (m *KeyedMap[T]) Get(key T) (any, bool) {
-	if !validKeyedMap(m) {
-		return nil, false
+func (m *KeyedMap[T, V]) Get(key T) (V, bool) {
+	if m.data == nil {
+		return *new(V), false
 	}
 	d, ok := m.data[key]
 	return d, ok
 }
 
 // Keys will retrieve the map keys
-func (m *KeyedMap[T]) Keys() []T {
-	if !validKeyedMap(m) {
+func (m *KeyedMap[T, V]) Keys() []T {
+	if m.data == nil {
 		return []T{}
 	}
 	return m.keys
-}
-
-func validKeyedMap[T comparable](m *KeyedMap[T]) bool {
-	return m != nil && m.data != nil
 }
