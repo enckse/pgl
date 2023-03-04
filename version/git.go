@@ -35,7 +35,7 @@ func (d DefaultGitManager) Error(err error) {
 
 // Tag will get the tag via git describe
 func (d DefaultGitManager) Tag() string {
-	b, err := exec.Command("git", "describe", "--tags", "--abbrev=0").Output()
+	b, err := exec.Command("git", "describe", "--tags", "--match", "v[0-9][0-9]\\.[0-9][0-9]\\.[0-9][0-9]").Output()
 	if err != nil {
 		d.Error(err)
 		return ""
