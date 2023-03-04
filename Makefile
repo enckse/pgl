@@ -1,11 +1,7 @@
-INTERNALS := $(dir internal/**/Makefile)
-
-.PHONY: $(INTERNALS)
-
-all: unittests $(INTERNALS)
+all: unittests checks
 
 unittests:
 	go test ./...
 
-$(INTERNALS):
-	make -C $@
+checks:
+	make -C internal/
