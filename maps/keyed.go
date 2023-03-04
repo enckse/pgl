@@ -9,13 +9,13 @@ type (
 	}
 )
 
-// AddKeyValue will add a new key/value to the map
-func AddKeyValue[T comparable](m *KeyedMap[T], key T, value any) {
+// Add will add a new key/value to the map
+func (m *KeyedMap[T]) Add(key T, value any) {
 	if m == nil {
 		return
 	}
 	needAdd := false
-	if _, ok := GetKeyValue(m, key); !ok {
+	if _, ok := m.Get(key); !ok {
 		needAdd = true
 	}
 	if m.data == nil {
@@ -27,15 +27,15 @@ func AddKeyValue[T comparable](m *KeyedMap[T], key T, value any) {
 	m.data[key] = value
 }
 
-// DeleteKey will remove a key from the map
-func DeleteKey[T comparable](m *KeyedMap[T], key T) {
+// Delete will remove a key from the map
+func (m *KeyedMap[T]) Delete(key T) {
 	if !validKeyedMap(m) {
 		return
 	}
-	if _, ok := GetKeyValue(m, key); ok {
+	if _, ok := m.Get(key); ok {
 		delete(m.data, key)
 		rekey := []T{}
-		for _, k := range GetKeys(m) {
+		for _, k := range m.Keys() {
 			if k == key {
 				continue
 			}
@@ -45,8 +45,8 @@ func DeleteKey[T comparable](m *KeyedMap[T], key T) {
 	}
 }
 
-// GetKeyValue will get the value of a key
-func GetKeyValue[T comparable](m *KeyedMap[T], key T) (any, bool) {
+// Get will get the value of a key
+func (m *KeyedMap[T]) Get(key T) (any, bool) {
 	if !validKeyedMap(m) {
 		return nil, false
 	}
@@ -54,8 +54,8 @@ func GetKeyValue[T comparable](m *KeyedMap[T], key T) (any, bool) {
 	return d, ok
 }
 
-// GetKeys will retrieve the map keys
-func GetKeys[T comparable](m *KeyedMap[T]) []T {
+// Keys will retrieve the map keys
+func (m *KeyedMap[T]) Keys() []T {
 	if !validKeyedMap(m) {
 		return []T{}
 	}

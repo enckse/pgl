@@ -9,22 +9,19 @@ import (
 
 func TestAddKeyValue(t *testing.T) {
 	k := &maps.KeyedMap[string]{}
-	maps.AddKeyValue(nil, "", nil)
-	maps.AddKeyValue(k, "test", nil)
-	if fmt.Sprintf("%v", maps.GetKeys(k)) != "[test]" {
-		t.Error(maps.GetKeys(k))
+	k.Add("test", nil)
+	if fmt.Sprintf("%v", k.Keys()) != "[test]" {
 		t.Error("invalid map")
 	}
-	v, ok := maps.GetKeyValue(k, "test")
+	v, ok := k.Get("test")
 	if !ok || v != nil {
 		t.Error("invalid get")
 	}
-	maps.AddKeyValue(k, "test", 1)
-	if fmt.Sprintf("%v", maps.GetKeys(k)) != "[test]" {
-		t.Error(maps.GetKeys(k))
+	k.Add("test", 1)
+	if fmt.Sprintf("%v", k.Keys()) != "[test]" {
 		t.Error("invalid map")
 	}
-	v, ok = maps.GetKeyValue(k, "test")
+	v, ok = k.Get("test")
 	if !ok || v != 1 {
 		t.Error("invalid get")
 	}
@@ -32,53 +29,48 @@ func TestAddKeyValue(t *testing.T) {
 
 func TestDeleteKeyValue(t *testing.T) {
 	k := &maps.KeyedMap[string]{}
-	maps.DeleteKey(nil, struct{}{})
-	maps.DeleteKey(k, "")
-	maps.AddKeyValue(k, "test", nil)
-	maps.AddKeyValue(k, "test2", 2)
-	maps.DeleteKey(k, "test")
-	if fmt.Sprintf("%v", maps.GetKeys(k)) != "[test2]" {
+	k.Delete("")
+	k.Add("test", nil)
+	k.Add("test2", 2)
+	k.Delete("test")
+	if fmt.Sprintf("%v", k.Keys()) != "[test2]" {
 		t.Error("invalid map")
 	}
-	_, ok := maps.GetKeyValue(k, "test")
+	_, ok := k.Get("test")
 	if ok {
 		t.Error("invalid key")
 	}
-	val, ok := maps.GetKeyValue(k, "test2")
+	val, ok := k.Get("test2")
 	if !ok || val != 2 {
 		t.Error("invalid key")
 	}
 }
 
 func TestGetKeyValue(t *testing.T) {
-	maps.GetKeyValue(nil, 1)
 	k := &maps.KeyedMap[string]{}
-	maps.AddKeyValue(k, "test", "TEST")
-	maps.AddKeyValue(k, "test2", 2)
-	val, ok := maps.GetKeyValue(k, "test")
+	k.Add("test", "TEST")
+	k.Add("test2", 2)
+	val, ok := k.Get("test")
 	if !ok || val != "TEST" {
 		t.Error("invalid key")
 	}
-	val, ok = maps.GetKeyValue(k, "test2")
+	val, ok = k.Get("test2")
 	if !ok || val != 2 {
 		t.Error("invalid key")
 	}
-	if _, ok := maps.GetKeyValue(k, "invalid"); ok {
+	if _, ok := k.Get("invalid"); ok {
 		t.Error("invalid key")
 	}
 }
 
 func TestGetKeys(t *testing.T) {
-	if len(maps.GetKeys[string](nil)) != 0 {
-		t.Error("invalid get")
-	}
-	if len(maps.GetKeys(&maps.KeyedMap[string]{})) != 0 {
-		t.Error("invalid get")
-	}
 	k := &maps.KeyedMap[string]{}
-	maps.AddKeyValue(k, "test2", 2)
-	maps.AddKeyValue(k, "test", "TEST")
-	if fmt.Sprintf("%v", maps.GetKeys(k)) != "[test2 test]" {
+	if len(k.Keys()) != 0 {
+		t.Error("invalid get")
+	}
+	k.Add("test2", 2)
+	k.Add("test", "TEST")
+	if fmt.Sprintf("%v", k.Keys()) != "[test2 test]" {
 		t.Error("invalid map")
 	}
 }
