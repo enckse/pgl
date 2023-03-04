@@ -95,19 +95,31 @@ func TestGitVersion(t *testing.T) {
 	m.tag = current + "01"
 	version.Git(m)
 	if m.err != nil || m.vers != current+"02" {
-		t.Errorf("invalid tag error or tag: %v, %s", m.err, m.tag)
+		t.Errorf("invalid tag error or tag: %v, %s", m.err, m.vers)
 	}
 	m.err = nil
 	m.tag = current + "09"
 	version.Git(m)
 	if m.err != nil || m.vers != current+"10" {
-		t.Errorf("invalid tag error or tag: %v, %s", m.err, m.tag)
+		t.Errorf("invalid tag error or tag: %v, %s", m.err, m.vers)
 	}
 	m.err = nil
 	m.tag = current + "98"
 	version.Git(m)
 	if m.err != nil || m.vers != current+"99" {
-		t.Errorf("invalid tag error or tag: %v, %s", m.err, m.tag)
+		t.Errorf("invalid tag error or tag: %v, %s", m.err, m.vers)
+	}
+	m.err = nil
+	m.tag = "v22.00.98"
+	version.Git(m)
+	if m.err != nil || m.vers != current+"00" {
+		t.Errorf("invalid tag error or tag: %v, %s", m.err, m.vers)
+	}
+	m.err = nil
+	m.tag = time.Now().Format("v06") + ".00.98"
+	version.Git(m)
+	if m.err != nil || m.vers != current+"00" {
+		t.Errorf("invalid tag error or tag: %v, %s", m.err, m.vers)
 	}
 }
 

@@ -102,7 +102,7 @@ func Git(v GitManager) {
 		return
 	}
 	currentVersion := time.Now().Format(timeFormat)
-	if len(tag) != len(timeFormat)+2 || !strings.HasPrefix(tag, currentVersion) {
+	if len(tag) != len(timeFormat)+2 {
 		v.Error(ErrInvalidInputTag)
 		return
 	}
@@ -115,6 +115,10 @@ func Git(v GitManager) {
 	converted, err := strconv.Atoi(minorVer)
 	if err != nil {
 		v.Error(err)
+		return
+	}
+	if !strings.HasPrefix(tag, currentVersion) {
+		v.Write(fmt.Sprintf("%s00", currentVersion))
 		return
 	}
 	if converted < 0 {
