@@ -1,5 +1,5 @@
 // Package filepath can tell if paths exist
-package filepath
+package paths
 
 import (
 	"errors"
@@ -7,7 +7,7 @@ import (
 )
 
 // PathExists indicates whether a file exists (true) or not (false)
-func PathExists(file string) bool {
+func Exists(file string) bool {
 	if _, err := os.Stat(file); errors.Is(err, os.ErrNotExist) {
 		return false
 	}

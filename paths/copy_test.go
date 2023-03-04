@@ -1,11 +1,11 @@
-package filepath_test
+package paths_test
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	fp "github.com/enckse/pgl/filepath"
+	fp "github.com/enckse/pgl/paths"
 )
 
 var testCopyDir = filepath.Join("testdata", "cp")

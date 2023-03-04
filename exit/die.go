@@ -1,5 +1,5 @@
 // Package os can write to stderr and exit
-package os
+package exit
 
 import (
 	"fmt"

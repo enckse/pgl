@@ -1,5 +1,5 @@
-// Package io can read one (or more) lines from stdin
-package io
+// Package stdin can read one (or more) lines from stdin
+package stdin
 
 import (
 	"bufio"
@@ -8,16 +8,16 @@ import (
 )
 
 // ReadAllStdin will read all text from stdin
-func ReadAllStdin() ([]byte, error) {
-	return readStdin(false)
+func ReadAll() ([]byte, error) {
+	return read(false)
 }
 
 // ReadStdinLine will read one line of stdin input
-func ReadStdinLine() ([]byte, error) {
-	return readStdin(true)
+func ReadLine() ([]byte, error) {
+	return read(true)
 }
 
-func readStdin(one bool) ([]byte, error) {
+func read(one bool) ([]byte, error) {
 	scanner := bufio.NewScanner(os.Stdin)
 	var b bytes.Buffer
 	for scanner.Scan() {

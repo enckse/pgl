@@ -1,5 +1,5 @@
 // Package filepath has the ability to read and copy by path
-package filepath
+package paths
 
 import (
 	"errors"
@@ -27,7 +27,7 @@ func Copy(src, dst string, mode fs.FileMode) error {
 }
 
 func doCopy(src, dst string, mode fs.FileMode, force bool) error {
-	if !PathExists(src) {
+	if !Exists(src) {
 		return ErrNoSourceFile
 	}
 
@@ -36,7 +36,7 @@ func doCopy(src, dst string, mode fs.FileMode, force bool) error {
 		return err
 	}
 
-	if PathExists(dst) {
+	if Exists(dst) {
 		if !force {
 			return ErrDestExists
 		}

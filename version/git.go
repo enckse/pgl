@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/enckse/pgl/filepath"
-	o "github.com/enckse/pgl/os"
+	"github.com/enckse/pgl/exit"
+	"github.com/enckse/pgl/paths"
 )
 
 type (
@@ -30,7 +30,7 @@ type (
 
 // Error will die/exit
 func (d DefaultGitManager) Error(err error) {
-	o.Die(err)
+	exit.Die(err)
 }
 
 // Tag will get the tag via git describe
@@ -92,7 +92,7 @@ const (
 
 // Git handles versioning for git-based repos
 func Git(v GitManager) {
-	if !filepath.PathExists(v.GitRoot()) {
+	if !paths.Exists(v.GitRoot()) {
 		v.Noop("no git root found")
 		return
 	}

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/enckse/pgl/io"
+	"github.com/enckse/pgl/stdin"
 )
 
 func main() {
@@ -16,9 +16,9 @@ func main() {
 	var err error
 	switch *mode {
 	case "one":
-		b, err = io.ReadStdinLine()
+		b, err = stdin.ReadLine()
 	case "multiple":
-		b, err = io.ReadAllStdin()
+		b, err = stdin.ReadAll()
 	default:
 		os.Exit(1)
 	}
