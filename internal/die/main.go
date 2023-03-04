@@ -4,7 +4,7 @@ package main
 import (
 	"flag"
 
-	"github.com/enckse/pgl/fmt"
+	"github.com/enckse/pgl/os"
 )
 
 func main() {
