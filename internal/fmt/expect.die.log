@@ -1,0 +1,10 @@
+dief: test 1
+exit status 1
+exit status 1
+die
+exit status 1
+die-and-exit
+exit status 2
+dief-and-exit: true
+exit status 4
+exit status 3
