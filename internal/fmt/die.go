@@ -1,3 +1,4 @@
+// Handles testing the fmt.Die* calls
 package main
 
 import (
