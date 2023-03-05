@@ -99,3 +99,28 @@ func TestConvert(t *testing.T) {
 		t.Error("invalid map")
 	}
 }
+
+func TestMapCount(t *testing.T) {
+	k := &maps.Map[string, uint]{}
+	if k.Count() != 0 {
+		t.Error("invalid count")
+	}
+	k.Set("test2", 2)
+	k.Set("test", 5)
+	if k.Count() != 2 {
+		t.Error("invalid count")
+	}
+	k.Set("test2", 2)
+	if k.Count() != 2 {
+		t.Error("invalid count")
+	}
+	k.Set("test3", 2)
+	if k.Count() != 3 {
+		t.Error("invalid count")
+	}
+	k.Delete("test")
+	k.Delete("test2")
+	if k.Count() != 1 {
+		t.Error("invalid count")
+	}
+}

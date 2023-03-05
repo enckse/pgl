@@ -71,3 +71,8 @@ func (m *Map[T, V]) Keys() []T {
 	}
 	return m.keys
 }
+
+// Count will get the count of items in the map
+func (m *Map[T, V]) Count() int {
+	return len(m.keys)
+}
