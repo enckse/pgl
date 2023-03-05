@@ -44,6 +44,11 @@ func TestDeleteKeyValue(t *testing.T) {
 	if !ok || val != "cde" {
 		t.Error("invalid key")
 	}
+	k.Set("test3", "abc")
+	k.Set("test4", "cde")
+	for _, key := range []string{"test4", "test3", "test2"} {
+		k.Delete(key)
+	}
 }
 
 func TestGetKeyValue(t *testing.T) {

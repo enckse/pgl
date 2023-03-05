@@ -44,14 +44,16 @@ func (m *Map[T, V]) Delete(key T) {
 	}
 	if _, ok := m.Get(key); ok {
 		delete(m.data, key)
-		rekey := []T{}
-		for _, k := range m.Keys() {
+		deleting := -1
+		for idx, k := range m.Keys() {
 			if k == key {
-				continue
+				deleting = idx
+				break
 			}
-			rekey = append(rekey, k)
 		}
-		m.keys = rekey
+		if deleting >= 0 {
+			m.keys = append(m.keys[:deleting], m.keys[deleting+1:]...)
+		}
 	}
 }
 
