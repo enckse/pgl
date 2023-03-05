@@ -6,8 +6,8 @@ import (
 	"os"
 )
 
-// Exists indicates whether a path exists (true) or not (false)
-func Exists(file string) bool {
+// Exist indicates whether a path exists (true) or not (false)
+func Exist(file string) bool {
 	if _, err := os.Stat(file); errors.Is(err, os.ErrNotExist) {
 		return false
 	}

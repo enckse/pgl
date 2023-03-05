@@ -1,15 +1,16 @@
-// Package set provides a simple set wrapper for maps
-package set
+// Package collections contains a number of collection types
+// that are useful for managing various data
+package collections
 
 type (
-	// MapBased is a simple map-based set via map[T]struct{}
-	MapBased[T comparable] struct {
+	// Set is a simple map-based set via map[T]struct{}
+	Set[T comparable] struct {
 		data map[T]struct{}
 	}
 )
 
 // Add will add an item to the set
-func (s *MapBased[T]) Add(item T) {
+func (s *Set[T]) Add(item T) {
 	if s.data == nil {
 		s.data = make(map[T]struct{})
 	}
@@ -17,12 +18,12 @@ func (s *MapBased[T]) Add(item T) {
 }
 
 // Clear will reset the set
-func (s *MapBased[T]) Clear() {
+func (s *Set[T]) Clear() {
 	s.data = nil
 }
 
 // Remove will remove an item from the set
-func (s *MapBased[T]) Remove(item T) {
+func (s *Set[T]) Remove(item T) {
 	if !s.Has(item) {
 		return
 	}
@@ -30,7 +31,7 @@ func (s *MapBased[T]) Remove(item T) {
 }
 
 // Has will indicate if the set contains a value
-func (s *MapBased[T]) Has(item T) bool {
+func (s *Set[T]) Has(item T) bool {
 	if s.data == nil {
 		return false
 	}

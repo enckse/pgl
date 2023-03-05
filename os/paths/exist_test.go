@@ -5,17 +5,17 @@ import (
 	"path/filepath"
 	"testing"
 
-	fp "github.com/enckse/pgl/paths"
+	fp "github.com/enckse/pgl/os/paths"
 )
 
-func TestPathExists(t *testing.T) {
+func TestPathExist(t *testing.T) {
 	testDir := filepath.Join("testdata", "exists")
 	os.RemoveAll(testDir)
-	if fp.Exists(testDir) {
+	if fp.Exist(testDir) {
 		t.Error("test dir SHOULD NOT exist")
 	}
 	os.Mkdir(testDir, 0o755)
-	if !fp.Exists(testDir) {
+	if !fp.Exist(testDir) {
 		t.Error("test dir SHOULD exist")
 	}
 }

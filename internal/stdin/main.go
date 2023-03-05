@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/enckse/pgl/stdin"
+	"github.com/enckse/pgl/os/stdin"
 )
 
 func main() {

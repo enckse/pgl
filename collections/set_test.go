@@ -1,13 +1,13 @@
-package set_test
+package collections_test
 
 import (
 	"testing"
 
-	"github.com/enckse/pgl/set"
+	set "github.com/enckse/pgl/collections"
 )
 
 func TestAdd(t *testing.T) {
-	s := &set.MapBased[string]{}
+	s := &set.Set[string]{}
 	s.Add("test")
 	if !s.Has("test") {
 		t.Error("invalid set")
@@ -23,7 +23,7 @@ func TestAdd(t *testing.T) {
 }
 
 func TestClear(t *testing.T) {
-	s := &set.MapBased[string]{}
+	s := &set.Set[string]{}
 	s.Clear()
 	s.Add("test")
 	if !s.Has("test") {
@@ -44,7 +44,7 @@ func TestClear(t *testing.T) {
 }
 
 func TestRemove(t *testing.T) {
-	s := &set.MapBased[string]{}
+	s := &set.Set[string]{}
 	s.Remove("test1")
 	s.Add("test")
 	if !s.Has("test") {
@@ -69,7 +69,7 @@ func TestRemove(t *testing.T) {
 }
 
 func TestHas(t *testing.T) {
-	s := &set.MapBased[int]{}
+	s := &set.Set[int]{}
 	if s.Has(1) {
 		t.Error("invalid has")
 	}

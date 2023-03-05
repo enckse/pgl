@@ -29,7 +29,7 @@ func Copy(src, dst string, mode fs.FileMode) error {
 }
 
 func doCopy(src, dst string, mode fs.FileMode, force bool) error {
-	if !Exists(src) {
+	if !Exist(src) {
 		return ErrNoSourceFile
 	}
 
@@ -38,7 +38,7 @@ func doCopy(src, dst string, mode fs.FileMode, force bool) error {
 		return err
 	}
 
-	if Exists(dst) {
+	if Exist(dst) {
 		if !force {
 			return ErrDestExists
 		}

@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	fp "github.com/enckse/pgl/paths"
+	fp "github.com/enckse/pgl/os/paths"
 )
 
 var testCopyDir = filepath.Join("testdata", "cp")

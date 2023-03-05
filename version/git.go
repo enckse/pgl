@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/enckse/pgl/exit"
-	"github.com/enckse/pgl/paths"
+	"github.com/enckse/pgl/os/paths"
 )
 
 type (
@@ -94,7 +94,7 @@ const (
 
 // Git handles versioning for git-based repos
 func Git(v GitManager) {
-	if !paths.Exists(v.GitRoot()) {
+	if !paths.Exist(v.GitRoot()) {
 		v.Noop("no git root found")
 		return
 	}
