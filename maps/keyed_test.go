@@ -74,3 +74,28 @@ func TestGetKeys(t *testing.T) {
 		t.Error("invalid map")
 	}
 }
+
+func TestConvert(t *testing.T) {
+	k := maps.Convert[string, int]()
+	if k == nil || len(k.Keys()) != 0 {
+		t.Error("invalid new keyed map")
+	}
+	nm := maps.Convert(map[string]int{})
+	if nm == nil || len(nm.Keys()) != 0 {
+		t.Error("invalid new keyed map")
+	}
+	nm = maps.Convert(map[string]int{}, nil)
+	if nm == nil || len(nm.Keys()) != 0 {
+		t.Error("invalid new keyed map")
+	}
+	nm = maps.Convert(map[string]int{"test": 1}, nil, map[string]int{"test": 2, "test2": 3})
+	if nm == nil || len(nm.Keys()) != 2 {
+		t.Error("invalid new keyed map")
+	}
+	if v, ok := nm.Get("test"); !ok || v != 2 {
+		t.Error("invalid map")
+	}
+	if v, ok := nm.Get("test2"); !ok || v != 3 {
+		t.Error("invalid map")
+	}
+}

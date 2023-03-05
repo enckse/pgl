@@ -9,6 +9,17 @@ type (
 	}
 )
 
+// Convert will convert an existing 0-N maps to a KeyedMap
+func Convert[T comparable, V any](m ...map[T]V) *KeyedMap[T, V] {
+	obj := &KeyedMap[T, V]{}
+	for _, item := range m {
+		for k, v := range item {
+			obj.Add(k, v)
+		}
+	}
+	return obj
+}
+
 // Add will add a new key/value to the map
 func (m *KeyedMap[T, V]) Add(key T, value V) {
 	needAdd := false
