@@ -8,7 +8,7 @@ import (
 )
 
 func TestAddKeyValue(t *testing.T) {
-	k := &maps.KeyedMap[string, int]{}
+	k := &maps.Map[string, int]{}
 	k.Add("test", 0)
 	if fmt.Sprintf("%v", k.Keys()) != "[test]" {
 		t.Error("invalid map")
@@ -28,7 +28,7 @@ func TestAddKeyValue(t *testing.T) {
 }
 
 func TestDeleteKeyValue(t *testing.T) {
-	k := &maps.KeyedMap[string, string]{}
+	k := &maps.Map[string, string]{}
 	k.Delete("")
 	k.Add("test", "abc")
 	k.Add("test2", "cde")
@@ -47,7 +47,7 @@ func TestDeleteKeyValue(t *testing.T) {
 }
 
 func TestGetKeyValue(t *testing.T) {
-	k := &maps.KeyedMap[string, bool]{}
+	k := &maps.Map[string, bool]{}
 	k.Add("test", true)
 	k.Add("test2", false)
 	val, ok := k.Get("test")
@@ -64,7 +64,7 @@ func TestGetKeyValue(t *testing.T) {
 }
 
 func TestGetKeys(t *testing.T) {
-	k := &maps.KeyedMap[string, uint]{}
+	k := &maps.Map[string, uint]{}
 	if len(k.Keys()) != 0 {
 		t.Error("invalid get")
 	}

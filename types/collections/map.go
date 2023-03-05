@@ -3,17 +3,17 @@
 package collections
 
 type (
-	// KeyedMap is wrapper around a map with a synchronized
+	// Map is wrapper around a map with a synchronized
 	// set of keys
-	KeyedMap[T comparable, V any] struct {
+	Map[T comparable, V any] struct {
 		data map[T]V
 		keys []T
 	}
 )
 
-// Convert will convert an existing 0-N maps to a KeyedMap
-func Convert[T comparable, V any](m ...map[T]V) *KeyedMap[T, V] {
-	obj := &KeyedMap[T, V]{}
+// Convert will convert an existing 0-N maps to a Map
+func Convert[T comparable, V any](m ...map[T]V) *Map[T, V] {
+	obj := &Map[T, V]{}
 	for _, item := range m {
 		for k, v := range item {
 			obj.Add(k, v)
@@ -23,7 +23,7 @@ func Convert[T comparable, V any](m ...map[T]V) *KeyedMap[T, V] {
 }
 
 // Add will add a new key/value to the map
-func (m *KeyedMap[T, V]) Add(key T, value V) {
+func (m *Map[T, V]) Add(key T, value V) {
 	needAdd := false
 	if _, ok := m.Get(key); !ok {
 		needAdd = true
@@ -38,7 +38,7 @@ func (m *KeyedMap[T, V]) Add(key T, value V) {
 }
 
 // Delete will remove a key from the map
-func (m *KeyedMap[T, V]) Delete(key T) {
+func (m *Map[T, V]) Delete(key T) {
 	if m.data == nil {
 		return
 	}
@@ -56,7 +56,7 @@ func (m *KeyedMap[T, V]) Delete(key T) {
 }
 
 // Get will get the value of a key
-func (m *KeyedMap[T, V]) Get(key T) (V, bool) {
+func (m *Map[T, V]) Get(key T) (V, bool) {
 	if m.data == nil {
 		return *new(V), false
 	}
@@ -65,7 +65,7 @@ func (m *KeyedMap[T, V]) Get(key T) (V, bool) {
 }
 
 // Keys will retrieve the map keys
-func (m *KeyedMap[T, V]) Keys() []T {
+func (m *Map[T, V]) Keys() []T {
 	if m.data == nil {
 		return []T{}
 	}
