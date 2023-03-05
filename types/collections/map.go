@@ -16,22 +16,22 @@ func Convert[T comparable, V any](m ...map[T]V) *Map[T, V] {
 	obj := &Map[T, V]{}
 	for _, item := range m {
 		for k, v := range item {
-			obj.Add(k, v)
+			obj.Set(k, v)
 		}
 	}
 	return obj
 }
 
-// Add will add a new key/value to the map
-func (m *Map[T, V]) Add(key T, value V) {
-	needAdd := false
+// Set will add a new key/value to the map
+func (m *Map[T, V]) Set(key T, value V) {
+	needSet := false
 	if _, ok := m.Get(key); !ok {
-		needAdd = true
+		needSet = true
 	}
 	if m.data == nil {
 		m.data = make(map[T]V)
 	}
-	if needAdd {
+	if needSet {
 		m.keys = append(m.keys, key)
 	}
 	m.data[key] = value

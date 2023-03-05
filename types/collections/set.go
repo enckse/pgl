@@ -24,14 +24,14 @@ func (s *Set[T]) Clear() {
 
 // Remove will remove an item from the set
 func (s *Set[T]) Remove(item T) {
-	if !s.Has(item) {
+	if !s.Contains(item) {
 		return
 	}
 	delete(s.data, item)
 }
 
-// Has will indicate if the set contains a value
-func (s *Set[T]) Has(item T) bool {
+// Contains will indicate if the set contains a value
+func (s *Set[T]) Contains(item T) bool {
 	if s.data == nil {
 		return false
 	}

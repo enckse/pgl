@@ -7,9 +7,9 @@ import (
 	maps "github.com/enckse/pgl/types/collections"
 )
 
-func TestAddKeyValue(t *testing.T) {
+func TestSetKeyValue(t *testing.T) {
 	k := &maps.Map[string, int]{}
-	k.Add("test", 0)
+	k.Set("test", 0)
 	if fmt.Sprintf("%v", k.Keys()) != "[test]" {
 		t.Error("invalid map")
 	}
@@ -17,7 +17,7 @@ func TestAddKeyValue(t *testing.T) {
 	if !ok || v != 0 {
 		t.Error("invalid get")
 	}
-	k.Add("test", 1)
+	k.Set("test", 1)
 	if fmt.Sprintf("%v", k.Keys()) != "[test]" {
 		t.Error("invalid map")
 	}
@@ -30,8 +30,8 @@ func TestAddKeyValue(t *testing.T) {
 func TestDeleteKeyValue(t *testing.T) {
 	k := &maps.Map[string, string]{}
 	k.Delete("")
-	k.Add("test", "abc")
-	k.Add("test2", "cde")
+	k.Set("test", "abc")
+	k.Set("test2", "cde")
 	k.Delete("test")
 	if fmt.Sprintf("%v", k.Keys()) != "[test2]" {
 		t.Error("invalid map")
@@ -48,8 +48,8 @@ func TestDeleteKeyValue(t *testing.T) {
 
 func TestGetKeyValue(t *testing.T) {
 	k := &maps.Map[string, bool]{}
-	k.Add("test", true)
-	k.Add("test2", false)
+	k.Set("test", true)
+	k.Set("test2", false)
 	val, ok := k.Get("test")
 	if !ok || !val {
 		t.Error("invalid key")
@@ -68,8 +68,8 @@ func TestGetKeys(t *testing.T) {
 	if len(k.Keys()) != 0 {
 		t.Error("invalid get")
 	}
-	k.Add("test2", 2)
-	k.Add("test", 5)
+	k.Set("test2", 2)
+	k.Set("test", 5)
 	if fmt.Sprintf("%v", k.Keys()) != "[test2 test]" {
 		t.Error("invalid map")
 	}
