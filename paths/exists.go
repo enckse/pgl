@@ -1,4 +1,4 @@
-// Package filepath can tell if paths exist
+// Package paths is responsible for pathing operations/commands
 package paths
 
 import (
@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-// PathExists indicates whether a file exists (true) or not (false)
+// Exists indicates whether a path exists (true) or not (false)
 func Exists(file string) bool {
 	if _, err := os.Stat(file); errors.Is(err, os.ErrNotExist) {
 		return false

@@ -1,8 +1,10 @@
-// Package maps has a comparable keyed map
+// Package maps provides a simple key-based map in which a map
+// is maintained along with a set of keys
 package maps
 
 type (
-	// KeyedMap contains keys synced with the underlying map keys
+	// KeyedMap is wrapper around a map with a synchronized
+	// set of keys
 	KeyedMap[T comparable, V any] struct {
 		data map[T]V
 		keys []T

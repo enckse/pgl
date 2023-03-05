@@ -1,4 +1,5 @@
-// Package values can default comparable values
+// Package values handles helpers around managing/setting/getting
+// values consistently
 package values
 
 // IfNotSet will return the value or the default if the value is the value's default setting

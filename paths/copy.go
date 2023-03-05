@@ -1,4 +1,4 @@
-// Package filepath has the ability to read and copy by path
+// Package paths is responsible for pathing operations/commands
 package paths
 
 import (
@@ -16,12 +16,14 @@ var (
 	ErrModeMismatch = errors.New("overwrite will change mode")
 )
 
-// CopyOverwrite will overwrite a file if it exists
+// CopyOverwrite is the same as Copy however it will overwrite the
+// destination UNLESS the file mode is different than what was given
 func CopyOverwrite(src, dst string, mode fs.FileMode) error {
 	return doCopy(src, dst, mode, true)
 }
 
-// Copy will copy a file from source to destination, will not overwrite
+// Copy will copy a file from source to destination but
+// will not overwrite
 func Copy(src, dst string, mode fs.FileMode) error {
 	return doCopy(src, dst, mode, false)
 }

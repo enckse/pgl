@@ -7,4 +7,4 @@ unittests:
 	go test ./...
 
 checks:
-	make -C internal/
+	cd internal && make

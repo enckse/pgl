@@ -1,4 +1,5 @@
-// Package version can help manage git-based versions
+// Package version helps manage embedded version data by
+// using git tags as the source of version information
 package version
 
 import (
@@ -17,6 +18,7 @@ import (
 
 type (
 	// GitManager is used to setup version information
+	// an implementation helps manage version changes
 	GitManager interface {
 		Tag() string
 		Error(error)
@@ -28,7 +30,7 @@ type (
 	DefaultGitManager struct{}
 )
 
-// Error will die/exit
+// Error will die/exit for any errors it receives
 func (d DefaultGitManager) Error(err error) {
 	exit.Die(err)
 }

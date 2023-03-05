@@ -1,4 +1,4 @@
-// Handles testing the fmt.Die* calls
+// Handles testing the exit.Die* calls
 package main
 
 import (
@@ -16,11 +16,11 @@ func main() {
 	case "die":
 		fmt.Die("die")
 	case "dieNil":
-		fmt.Die(nil)
+		fmt.Die(nil, nil, nil)
 	case "dieExit":
 		fmt.DieAndExit(2, "die-and-exit")
 	case "dieExitNil":
-		fmt.DieAndExit(3, nil)
+		fmt.DieAndExit(3, nil, 5)
 	case "diefExit":
 		fmt.DieAndExitf(4, "dief-and-exit: %t", true)
 	default:

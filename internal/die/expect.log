@@ -7,4 +7,5 @@ die-and-exit
 exit status 2
 dief-and-exit: true
 exit status 4
+5
 exit status 3
