@@ -1,6 +1,6 @@
-// Package maps provides a simple key-based map in which a map
-// is maintained along with a set of keys
-package maps
+// Package collections contains a number of collection types
+// that are useful for managing various data
+package collections
 
 type (
 	// KeyedMap is wrapper around a map with a synchronized

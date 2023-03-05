@@ -1,10 +1,10 @@
-package maps_test
+package collections_test
 
 import (
 	"fmt"
 	"testing"
 
-	"github.com/enckse/pgl/maps"
+	maps "github.com/enckse/pgl/collections"
 )
 
 func TestAddKeyValue(t *testing.T) {
