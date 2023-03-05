@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	maps "github.com/enckse/pgl/collections"
+	maps "github.com/enckse/pgl/types/collections"
 )
 
 func TestAddKeyValue(t *testing.T) {

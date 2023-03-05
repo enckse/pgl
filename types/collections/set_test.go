@@ -3,7 +3,7 @@ package collections_test
 import (
 	"testing"
 
-	set "github.com/enckse/pgl/collections"
+	set "github.com/enckse/pgl/types/collections"
 )
 
 func TestAdd(t *testing.T) {

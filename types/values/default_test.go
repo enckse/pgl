@@ -3,7 +3,7 @@ package values_test
 import (
 	"testing"
 
-	"github.com/enckse/pgl/values"
+	"github.com/enckse/pgl/types/values"
 )
 
 func TestIfNotSet(t *testing.T) {
