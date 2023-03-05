@@ -4,7 +4,7 @@ package main
 import (
 	"flag"
 
-	fmt "github.com/enckse/pgl/exit"
+	fmt "github.com/enckse/pgl/os/exit"
 )
 
 func main() {

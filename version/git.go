@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/enckse/pgl/exit"
+	"github.com/enckse/pgl/os/exit"
 	"github.com/enckse/pgl/os/paths"
 )
 
