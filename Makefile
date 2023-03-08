@@ -1,7 +1,4 @@
-all: unittests checks vers
-
-vers:
-	go run internal/version/main.go version/vers.txt
+all: unittests checks
 
 unittests:
 	go test ./...
